@@ -1,0 +1,128 @@
+//    Jan/2022/01 to jan/2022/05
+Day 1-5 :
+
+Company Name : Goldman Sachs
+
+Questions :
+
+
+       1. Given an array of strings, return all groups of strings that are anagrams.
+
+       Code:
+       // { Driver Code Starts
+//Initial Template for C++
+#include <bits/stdc++.h>
+#include <unordered_map>
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function Template for C++
+
+class Solution{
+  public:
+    vector<vector<string> > Anagrams(vector<string>& string_list) {
+        //code here
+        
+        //TC: O(NMLOGM)
+        //SC:O(N+M)
+        vector<vector<string>>res;
+        unordered_map<string,vector<string>>m;
+        for(auto str:string_list)
+        {
+            string word=str;
+            sort(word.begin(),word.end());
+            m[word].push_back(str);
+        }
+        for(auto it:m)
+        {
+            res.push_back(it.second);
+        }
+        return res;
+    }
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        vector<string> string_list(n);
+        for (int i = 0; i < n; ++i)
+            cin>>string_list[i]; 
+        Solution ob;
+        vector<vector<string> > result = ob.Anagrams(string_list);
+        sort(result.begin(),result.end());
+        for (int i = 0; i < result.size(); i++)
+        {
+            for(int j=0; j < result[i].size(); j++)
+            {
+                cout<<result[i][j]<<" ";
+            }
+            cout<<"\n";
+        }
+    }
+
+    return 0;
+}
+  // } Driver Code Ends
+
+       2. Overlapping rectangles
+
+       code:
+
+       // { Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+  public:
+    int doOverlap(int L1[], int R1[], int L2[], int R2[]) {
+        // code here
+        if(L1[0]>R2[0] || L2[0]>R1[0])
+        return false;
+        if(L1[1]<R2[1] || L2[1]<R1[1])
+        return false;
+        return true;
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int p[2], q[2], r[2], s[2];
+        cin >> p[0] >> p[1] >> q[0] >> q[1] >> r[0] >> r[1] >> s[0] >> s[1];
+        Solution ob;
+        int ans = ob.doOverlap(p, q, r, s);
+        cout << ans << "\n";
+    }
+}  // } Driver Code Ends
+       3. Count the subarrays having product less than k
+       4. Given a string, Your task is to  complete the function encode that returns the run length encoded     for the given string.
+       eg if the input string is “wwwwaaadexxxxxx”, then the function should return “w4a3d1e1x6″.(Modified version of question named Cute Monkeys)
+
+        5.Program to find Nth Ugly Number.
+        6. Given two strings str1 and str2. We say that str2 divides str1 if it's possible
+        to concatenate multiple str2 to get str1. For example, ab divides abab.if str2 does not divide str1, return -1. Otherwise, return the smallest string str3 such that str3 divides both str1 and str2.
+        7. Find the kid which gets tha damaged toy
+        8. Total Decoding Messages
+        9.Given a pattern containing only I's and D's. I for increasing and D for decreasing.Devise an algorithm to print the minimum number following that pattern.
+        10. Find max 10 numbers in a list having 10M entries.
+        11. Given an unsorted array Arr of size N of positive integers. One number 'A' from     set {1, 2, …N} is missing and one number 'B' occurs twice in array. Find these two numbers.
+        12. Find total number of Squares in a N*N chessboard
+        13.Decode the string
+        14.Minimum Size Subarray Sum
+        15.Array Pair Sum Divisibility Problem
