@@ -111,18 +111,596 @@ int main() {
     }
 }  // } Driver Code Ends
        3. Count the subarrays having product less than k
+
+       code:
+       // { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+ // } Driver Code Ends
+
+
+class Solution{
+  public:
+    int countSubArrayProductLessThanK(const vector<int>& a, int n, long long k) {
+        
+        long long int start=0,end=0,c=0,p=1;
+        while(end<n)
+        {
+            p*=a[end];
+            while(start<n and p>=k)
+            {
+                p=p/a[start];
+                start++;
+                
+            }
+            if(p<k)
+            {
+                c+=end-start+1;
+                end++;
+            }
+        }
+        return c;
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, i;
+        long long int k;
+        cin >> n >> k;
+        vector<int> arr(n);
+        for (i = 0; i < n; i++) cin >> arr[i];
+        Solution obj;
+        cout << obj.countSubArrayProductLessThanK(arr, n, k) << endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends
        4. Given a string, Your task is to  complete the function encode that returns the run length encoded     for the given string.
        eg if the input string is “wwwwaaadexxxxxx”, then the function should return “w4a3d1e1x6″.(Modified version of question named Cute Monkeys)
+         
+        // { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+ // } Driver Code Ends
+
+
+class Solution{
+  public:
+    int countSubArrayProductLessThanK(const vector<int>& a, int n, long long k) {
+        
+        long long int start=0,end=0,c=0,p=1;
+        while(end<n)
+        {
+            p*=a[end];
+            while(start<n and p>=k)
+            {
+                p=p/a[start];
+                start++;
+                
+            }
+            if(p<k)
+            {
+                c+=end-start+1;
+                end++;
+            }
+        }
+        return c;
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, i;
+        long long int k;
+        cin >> n >> k;
+        vector<int> arr(n);
+        for (i = 0; i < n; i++) cin >> arr[i];
+        Solution obj;
+        cout << obj.countSubArrayProductLessThanK(arr, n, k) << endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends
 
         5.Program to find Nth Ugly Number.
+
+        code:
+
+        // { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define ull unsigned long long
+
+
+ // } Driver Code Ends
+//User function template for C++
+class Solution{
+public:	
+	// #define ull unsigned long long
+	/* Function to get the nth ugly number*/
+	ull getNthUglyNo(int n) {
+	    // code here
+	    ull dp[n+1];
+	    ull c2=0,c3=0,c5=0;
+	    dp[0]=1;
+	    for(int i=1;i<=n;i++)
+	    {
+	        dp[i]=min(2*dp[c2],min(3*dp[c3],5*dp[c5]));
+	        if(2*dp[c2]==dp[i])
+	        c2++;
+	        if(3*dp[c3]==dp[i])
+	        c3++;
+	        if(5*dp[c5]==dp[i])
+	        c5++;
+	    }
+	    return dp[n-1];
+	}
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        Solution ob;
+        auto ans = ob.getNthUglyNo(n);
+        cout << ans << "\n";
+    }
+    return 0;
+}
+  // } Driver Code Ends
         6. Given two strings str1 and str2. We say that str2 divides str1 if it's possible
         to concatenate multiple str2 to get str1. For example, ab divides abab.if str2 does not divide str1, return -1. Otherwise, return the smallest string str3 such that str3 divides both str1 and str2.
+
+        // { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define ull unsigned long long
+
+
+ // } Driver Code Ends
+//User function template for C++
+class Solution{
+public:	
+	// #define ull unsigned long long
+	/* Function to get the nth ugly number*/
+	ull getNthUglyNo(int n) {
+	    // code here
+	    ull dp[n+1];
+	    ull c2=0,c3=0,c5=0;
+	    dp[0]=1;
+	    for(int i=1;i<=n;i++)
+	    {
+	        dp[i]=min(2*dp[c2],min(3*dp[c3],5*dp[c5]));
+	        if(2*dp[c2]==dp[i])
+	        c2++;
+	        if(3*dp[c3]==dp[i])
+	        c3++;
+	        if(5*dp[c5]==dp[i])
+	        c5++;
+	    }
+	    return dp[n-1];
+	}
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        Solution ob;
+        auto ans = ob.getNthUglyNo(n);
+        cout << ans << "\n";
+    }
+    return 0;
+}
+  // } Driver Code Ends
         7. Find the kid which gets tha damaged toy
+
+        code:
+        // { Driver Code Starts
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution {
+  public:
+    int findPosition(int N , int M , int K) {
+        // code here
+        if(M<=N-K+1)
+        return M+K-1;
+        M=M-(N-K+1);
+        return (M%N==0)?N:(M%N);
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N,M,K;
+        
+        cin>>N>>M>>K;
+
+        Solution ob;
+        cout << ob.findPosition(N,M,K) << endl;
+    }
+    return 0;
+}  // } Driver Code Ends
         8. Total Decoding Messages
+
+        code:
+
+        // { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+	public:
+	const int mod= 1e9+7;
+        long long dp[10004];
+        long long solve(string &s, int n)
+        {
+        if (s[0] == '0' || s[0]== ' ')
+        return 0;
+        if (n == 0 || n == 1)
+        return 1;
+        
+        if(dp[n]!=-1)return dp[n]%mod;
+        
+        int count = 0;
+        
+        if (s[n - 1] > '0')
+        count = solve(s, n - 1)%mod;
+        
+        if (s[n - 2] == '1' || (s[n - 2] == '2' && s[n - 1] < '7'))
+        count = (count%mod + solve(s, n - 2)%mod)%mod;
+        
+        return dp[n]= count%mod;
+}
+	    
+		int CountWays(string str){
+		    // Code here
+		   	    
+		    memset(dp,-1,sizeof dp);
+            return solve(str,str.size())%1000000007;
+		}
+
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		string str;
+		cin >> str;
+		Solution obj;
+		int ans = obj.CountWays(str);
+		cout << ans << "\n";
+	}
+	return 0;
+}  // } Driver Code Ends
         9.Given a pattern containing only I's and D's. I for increasing and D for decreasing.Devise an algorithm to print the minimum number following that pattern.
+
+        // { Driver Code Starts
+#include<bits/stdc++.h> 
+using namespace std; 
+
+ // } Driver Code Ends
+class Solution{   
+public:
+    string printMinNumberForPattern(string S){
+        // code here 
+        
+        string res;
+        stack<int> st;
+        int num = 1;
+        for(auto it:S){
+            if(it == 'D'){
+                st.push(num);
+                num++;
+            }else{
+                st.push(num);
+                num++;
+                while(!st.empty()){
+                    res += to_string(st.top());
+                    st.pop();
+                }
+            }
+        }
+        st.push(num);
+        while(!st.empty()){
+            res += to_string(st.top());
+            st.pop();
+        }
+        return res;
+    }
+};
+
+
+// { Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string S;
+        cin >> S;
+        Solution ob;
+        cout << ob.printMinNumberForPattern(S) << endl;
+    }
+    return 0; 
+} 
+  // } Driver Code Ends
         10. Find max 10 numbers in a list having 10M entries.
+
+
         11. Given an unsorted array Arr of size N of positive integers. One number 'A' from     set {1, 2, …N} is missing and one number 'B' occurs twice in array. Find these two numbers.
+
+        // { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+
+ // } Driver Code Ends
+class Solution{
+public:
+    int *findTwoElement(int *arr, int n) {
+        // code here
+        
+        int a,b;
+        for(int i=0;i<n;i++)
+        {
+            if(arr[abs(arr[i])-1]<0)
+            {
+                a=abs(arr[i]);
+            }
+            else
+            {
+                arr[abs(arr[i])-1]= -arr[abs(arr[i])-1];
+            }
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            if(arr[i]>0)
+            {
+                b=i+1;
+                break;
+            }
+        }
+        int *v=new int[2];
+        v[0]=a;
+        v[1]=b;
+        return v;
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        int a[n];
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
+        }
+        Solution ob;
+        auto ans = ob.findTwoElement(a, n);
+        cout << ans[0] << " " << ans[1] << "\n";
+    }
+    return 0;
+}  // } Driver Code Ends
         12. Find total number of Squares in a N*N chessboard
+
+        code:
+
+        // { Driver Code Starts
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+class Solution {
+  public:
+    long long squaresInChessBoard(long long N) {
+        // code here
+        long res=0;
+        while(N>=1)
+        {
+           res+=(N*N);
+           N--;
+        }
+        return res;
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        long long N;
+        
+        cin>>N;
+
+        Solution ob;
+        cout << ob.squaresInChessBoard(N) << endl;
+    }
+    return 0;
+}  // } Driver Code Ends
         13.Decode the string
+
+        code:
+
+        // { Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+       string decodeString(string& s, int& i) {
+        string result;
+        while(i < s.length() && s[i] != ']'){
+            if(isdigit(s[i])){
+                int k = 0;
+                while(i < s.length() && isdigit(s[i]))
+                    k = k*10 + s[i++] - '0';
+                i++;
+                string r = decodeString(s, i);
+                while(k-- > 0)
+                    result += r;
+                i++;
+            } else
+                result += s[i++];
+        }
+        return result;
+    }
+    string decodedString(string s){
+        // code here
+        int i = 0;
+        return decodeString(s, i);
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string s;
+        cin>>s;
+        
+        Solution ob;
+        cout<<ob.decodedString(s)<<"\n";
+    }
+    return 0;
+}  // } Driver Code Ends
         14.Minimum Size Subarray Sum
+
+        code:
+
+        class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        
+        int len = 0, ans=INT_MAX,sum=0,j=0,i=0;
+    while(j<nums.size())
+    {
+        sum+=nums[j];
+        len+=1;
+          while(sum>=target)
+          {
+                ans = min(ans,len);
+              len-=1;
+              sum-=nums[i++];
+          }
+         j++;
+        if(j>nums.size()-1) break;
+    }
+    if(ans==INT_MAX) return 0;
+    return ans;
+    }
+};
         15.Array Pair Sum Divisibility Problem
+
+        code:
+
+        // { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    bool canPair(vector<int> nums, int k) {
+        // Code here.
+        
+         unordered_map<int,int> mp;
+        
+        int n = nums.size();
+        if(n % 2 != 0) return false;
+        
+        for(int i=0;i<n;i++){
+            mp[nums[i] % k]++;
+        }
+        
+        for(int i=0;i<n;i++){
+            
+            int rem1 = nums[i] % k;
+            
+            if(rem1 == 0){
+                if(mp[rem1] % 2 != 0) return false;
+            }
+            else{
+                int rem2 = k - rem1;
+                if(rem1 == rem2 and mp[rem1] % 2 != 0) return false;
+                if(mp.find(rem2) == mp.end()) return false;
+                if(mp[rem1] != mp[rem2]) return false;
+            }
+            
+        }
+        return true;
+        
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int tc;
+    cin >> tc;
+    while (tc--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> nums(n);
+        for (int i = 0; i < nums.size(); i++) cin >> nums[i];
+        Solution ob;
+        bool ans = ob.canPair(nums, k);
+        if (ans)
+            cout << "True\n";
+        else
+            cout << "False\n";
+    }
+    return 0;
+}  // } Driver Code Ends
