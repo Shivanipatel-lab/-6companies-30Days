@@ -1,0 +1,552 @@
+
+
+
+
+1.Calculating Maximum Profit (Multiple Ladders Question)
+Code:-
+ int maxProfit(int K, int N, int A[]) {
+        // code here
+        
+        
+        int dp[K+1][N];
+        memset(dp,0,sizeof(dp));
+        for(int i=1;i<=K;i++)
+        {
+            int mx=INT_MIN;
+            for(int j=1;j<N;j++)
+            {
+                mx=max(mx,dp[i-1][j-1]-A[j-1]);
+                dp[i][j]=max(dp[i][j-1],mx+A[j]);
+            }
+        }
+        return dp[K][N-1];
+    }
+2.Longest Mountain 
+Code:-
+int longestMountain(vector<int>& arr) {
+        
+       int res=0,n=arr.size();
+        int c=0;
+        for(int i=1;i<n;i++)
+        {
+            if(arr[i]==arr[i-1])
+                c=0;
+            else if(arr[i]>arr[i-1])
+                c++;
+            else if(c>0)
+            {
+                while(i<n and arr[i]<arr[i-1])
+                {
+                    c++;
+                    i++;
+                }
+                res=max(res,c+1);
+                c=0,i--;
+            }
+        }
+        return res;
+    }
+3.IPL 2021 - Match Day 2 (similar to maximum in subarray)
+Code:-
+vector<int> max_of_subarrays(vector<int> arr, int n, int k) {
+        // your code here
+        
+         vector<int> ans;
+        priority_queue<int> pq;
+        int i=0,j=0;
+        
+        while(j < n){
+            if(j-i+1 < k){
+                pq.push({arr[j],j});
+                j++;
+            }else{
+                pq.push({arr[j],j});
+                int t = pq.top().first;
+                ans.push_back(t);
+                while(!pq.empty()){
+                    if(pq.top().second <= i){
+                        pq.pop();
+                    }else{
+                        break;
+                    }
+                }
+                i++,j++;
+            }
+        }
+        return ans;    
+    }
+4.Brackets in Matrix Chain Multiplication 
+Code:-
+void OptimalParanthesis(int i, int j, int n, int brackets[101][101], char& name, string &s){
+    
+    if(i==j){
+    s.push_back(name++);
+    return;
+    }
+    s.push_back('(');
+    
+    OptimalParanthesis(i,brackets[i][j], n, brackets, name,s);
+    OptimalParanthesis(brackets[i][j] + 1, j, n, brackets, name,s);
+    
+    s.push_back(')');
+    
+    
+}
+    string matrixChainOrder(int p[], int n){
+        // code here
+        int t[101][101];
+int brackets[101][101];
+
+int i,j,k,temp;
+int min=0;
+
+for(int i=0;i<n;  i++){
+    t[i][i] = 0;
+}
+
+for(int L=2; L<n; L++){
+    for(int i=0; i<n-L+1; i++){
+        int j = i+L-1;
+        t[i][j] = INT_MAX;
+        for(int k=i; k<j; k++){
+            temp = t[i][k] + t[k+1][j] + p[i-1]*p[k]*p[j];
+        
+        if(temp<t[i][j]){  t[i][j] = temp;
+            brackets[i][j] = k;
+            
+        }
+        }
+    }
+}
+char name = 'A';
+string s;
+OptimalParanthesis(1,n-1, n, brackets , name, s);
+return s;
+    }
+5.Phone directory (Question similar to this based on Amazon Pay as a service)
+Code:-
+
+vector<vector<string>> displayContacts(int n, string contact[], string s)
+    {
+        // code here
+        
+        set<string>mp;
+       vector<vector<string>>ans(s.size());
+       for(int i=0;i<n;i++){
+           mp.insert(contact[i]);
+       }
+       for(int i=0;i<s.size();i++){
+           for(auto it:mp){
+               if(s.substr(0,i+1)==it.substr(0,i+1)){
+                   ans[i].push_back(it);
+               }
+           }
+           if(ans[i].size()==0){
+               ans[i].push_back(to_string(0));
+           }
+       }
+       return ans;
+    }
+6.Maximum of all subarrays of size k
+Code:-
+vector <int> max_of_subarrays(int *arr, int n, int k)
+    {
+        // your code here
+         vector<int> v;
+       multiset<int,greater<int>> s;
+       for(int i=0;i<n;i++){
+           s.insert(arr[i]);
+           if(s.size()>k){
+               s.erase(s.find(arr[i-k]));
+           }
+           if(s.size()==k){
+               v.push_back(*s.begin());
+           }
+       }
+       return v;
+    }
+7.First non-repeating character in a stream
+Code:-
+	string FirstNonRepeating(string A){
+		    // Code here
+		    queue<int> q;
+		    string temp="";
+		    int arr[26]={0};
+		    for(int i=0;i<A.size();i++){
+		        arr[A[i]-'a']++;
+		        if(arr[A[i]-'a']==1){
+		            q.push(A[i]);
+		        }
+		        while(!q.empty() && arr[q.front()-'a']!=1){
+		            q.pop();
+		        }
+		        if(q.empty()){
+		            A[i]='#';
+		        }else{
+		            A[i]=q.front();
+		        }
+		    }
+		    return A;
+		}
+
+8.Count ways to N'th Stair(Order does not matter)
+Code:-
+long long countWays(int m)
+    {
+        // your code here
+        
+        return (m/2)+1;
+    }
+9.Which among them forms a perfect Sudoku Pattern ?
+Code:-
+int isValid(vector<vector<int>> mat){
+        // code here
+        
+        int row[9][9]={0},col[9][9]={0},box[9][9]={0};
+        for(int i=0;i<9;i++)
+        {
+            for(int j=0;j<9;j++)
+            {
+                if(mat[i][j]!=0){
+                row[i][mat[i][j]-1]++;
+                col[j][mat[i][j]-1]++;
+                box[(i/3)*3 + j/3][mat[i][j]-1]++;
+                if(row[i][mat[i][j]-1]>1 || col[j][mat[i][j]-1]>1 || box[(i/3)*3 + j/3][mat[i][j]-1]>1)
+                return 0;
+                }
+                
+            }
+        }
+        return 1;
+    }
+10.Nuts and Bolts Problem
+Code:-
+void matchPairs(char nuts[], char bolts[], int n) {
+	    // code here
+	    
+	     set<int> nuts1;
+    set<int> bolts1;
+    
+    for(int i=0;i<n;i++){
+        nuts1.insert(nuts[i]);
+        bolts1.insert(bolts[i]);
+    }
+    auto itr=nuts1.begin();
+    for(int i=0;i<n;i++){
+        if(nuts1.find(bolts[i])!=nuts1.end() && bolts1.find(nuts[i])!=bolts1.end())
+            {
+                nuts[i]= *itr;
+                bolts[i]= *itr;
+            }
+            itr++;
+    }
+}
+11.Tree Serialization and Deserialization
+Code:-
+// { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// Tree Node
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+
+// Function to Build Tree
+Node *buildTree(string str) {
+    // Corner Case
+    if (str.length() == 0 || str[0] == 'N')
+        return NULL;
+
+    // Creating vector of strings from input
+    // string after spliting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for (string str; iss >> str;)
+        ip.push_back(str);
+
+    // Create the root of the tree
+    Node *root = new Node(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node *> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while (!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node *currNode = queue.front();
+        queue.pop();
+
+        // Get the current Node's value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if (currVal != "N") {
+
+            // Create the left child for the current Node
+            currNode->left = new Node(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if (i >= ip.size())
+            break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if (currVal != "N") {
+
+            // Create the right child for the current Node
+            currNode->right = new Node(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+
+ // } Driver Code Ends
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child  
+struct Node
+{
+    int data;
+    Node* left;
+    Node* right;
+}; */
+
+
+class Solution
+{
+    public:
+    vector<int> vec;
+    void help(Node* root)
+    {
+        if(!root)
+        return;
+        
+        help(root->left);
+        vec.push_back(root->data);
+        help(root->right);
+    }
+    //Function to serialize a tree and return a list containing nodes of tree.
+    vector<int> serialize(Node *root) 
+    {
+        //Your code here
+        help(root);
+       return vec;
+        
+    }
+    
+    //Function to deserialize a list and construct the tree.
+    Node * deSerialize(vector<int> &A)
+    {
+       //Your code here
+       struct Node*newroot = new Node(-1);
+       Node* temp = newroot;
+       int n = A.size();
+       for(int i=0;i<n;i++)
+       {
+           temp->right = new Node(A[i]);
+           temp = temp->right;
+       }
+       return newroot->right;
+    }
+
+};
+
+// { Driver Code Starts.
+
+void inorder(Node *root) {
+    if (root == NULL)
+        return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+void _deleteTree(Node* node)  
+{  
+    if (node == NULL) return;  
+  
+    /* first delete both subtrees */
+    _deleteTree(node->left);  
+    _deleteTree(node->right);  
+  
+    /* then delete the node */
+    //cout << "Deleting node: " << node->data << endl;  
+    delete node;  
+}  
+  
+/* Deletes a tree and sets the root as NULL */
+void deleteTree(Node** node_ref)  
+{  
+    _deleteTree(*node_ref);  
+    *node_ref = NULL;  
+}  
+
+int main() {
+    int tc;
+    scanf("%d ", &tc);
+    while (tc--) {
+        string treeString;
+        getline(cin, treeString);
+        Node *root = buildTree(treeString);
+        
+        Solution serial, deserial;
+        vector<int> A = serial.serialize(root);
+        deleteTree(&root);
+        Node *getRoot = deserial.deSerialize(A);
+        inorder(getRoot);
+        cout << "\n";
+
+    }
+
+
+    return 0;
+}  // } Driver Code Ends
+12.Column name from a given column number
+Code:-
+
+{
+        // your code here
+        string temp="";
+        while(n>0){
+            char ch='A'+(n-1)%26;
+            temp=ch+temp;
+            n=(n-1)/26;
+        }
+        return temp;
+    }
+
+13.Rotten Oranges -Multiple Repetitions
+Code:-
+
+ int orangesRotting(vector<vector<int>>& grid) {
+        
+        //take a queue
+         queue<pair<int, int>> rotten;
+        int r = grid.size(), c = grid[0].size(), fresh = 0, t = 0;
+        for(int i = 0; i < r; ++i){
+            for(int j = 0; j < c; ++j){
+                if(grid[i][j] == 2) rotten.push({i, j});
+                else if(grid[i][j] == 1) fresh++;
+            }
+        }
+        
+        while(!rotten.empty()){
+            int num = rotten.size();
+            for(int i = 0; i < num; ++i){
+                int x = rotten.front().first, y = rotten.front().second;
+                rotten.pop();
+                if(x > 0 && grid[x-1][y] == 1){ grid[x-1][y] = 2; fresh--; rotten.push({x-1, y});};
+                if(y > 0 && grid[x][y-1] == 1){ grid[x][y-1] = 2; fresh--; rotten.push({x, y-1});};
+                if(x < r-1 && grid[x+1][y] == 1){ grid[x+1][y] = 2; fresh--; rotten.push({x+1, y});};
+                if(y < c-1 && grid[x][y+1] == 1){ grid[x][y+1] = 2; fresh--; rotten.push({x, y+1});};
+            }
+            if(!rotten.empty()) t++;
+        }
+        return (fresh == 0) ? t : -1;
+    }
+
+14.Tree Burning 
+Code:-
+
+int ans=0,p=0,fh;
+    bool done=false;
+    int solve(Node* root){
+        
+        if(!root)return 0;
+        
+        int l=1+solve(root->left);
+        int r=1+solve(root->right);
+        
+        return max(l,r);
+    }
+    
+    void path(Node* root,int t,int mh){
+        
+        if(!root)return;
+        
+        // cout<<root->data<<" ";
+        
+        if(root->data==t){
+            done=true;
+            ans=solve(root)-1;
+            fh=mh;
+            // cout<<ans<<" "<<mh<<endl;
+            return;
+        }
+        
+        path(root->left,t,mh+1);
+        if(done){
+            int h=solve(root->right);
+            ans=max(ans,h+fh-mh);
+            return;
+        }
+        path(root->right,t,mh+1);
+        
+        if(done){
+            int h=solve(root->left);
+            ans=max(ans,h+fh-mh);
+            return;
+        }
+
+        
+    }
+  
+    int minTime(Node* root, int t) 
+    {
+        
+        ans=0;
+        
+        path(root,t,0);
+        
+        return ans;
+    }
+15. Delete N nodes after M nodes of a linked list 
+Code:-
+
+ void linkdelete(struct Node  *head, int M, int N)
+    {
+        //Add code here  
+        
+        if(head == nullptr){
+            return;
+        }
+        int ctr = 0; 
+        while(head != nullptr and head->next){
+            ctr++;
+            if(ctr == M){
+                // you have to delete here N nodes
+                Node* curr = head;
+                int loop = N;
+                while(loop--){
+                    if(curr->next)
+                        curr = curr->next;
+                }
+                head->next = curr->next;
+                ctr = 0;
+            }
+            head = head->next;
+        }
+    }
