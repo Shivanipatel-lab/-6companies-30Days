@@ -1,7 +1,13 @@
 # #6companies30Days
  #RevisWithArsh
 
+1.GOLDMANSACHS
 
+2.AMAZON
+
+3.MICROSOFT
+
+4.ADOBE
 
 GeeksForGeeks link
 
