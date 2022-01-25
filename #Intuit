@@ -1,0 +1,668 @@
+1.https://www.geeksforgeeks.org/partition-a-set-into-two-subsets-such-that-the-difference-of-subset-sums-is-minimum/
+
+
+
+CODE :
+
+int minDifference(int arr[], int n)  { 
+    // Your code goes here
+     int sum = 0;
+   for (int i = 0; i < n; i++)
+   {
+       sum += arr[i];
+   }
+   int orgSum = sum;
+   sum = sum / 2;
+   bool dp[n + 1][sum + 1];
+   for (int i = 0; i <= n; i++)
+   {
+       for (int j = 0; j <= sum; j++)
+       {
+           if (j == 0)
+           {
+               dp[i][j] = true;
+           }
+           else if (i == 0)
+           {
+               dp[i][j] = false;
+           }
+           else
+           {
+               if (arr[i - 1] > j)
+               {
+                   dp[i][j] = dp[i - 1][j];
+               }
+               else
+               {
+                   dp[i][j] = dp[i - 1][j] || dp[i - 1][j - arr[i - 1]];
+               }
+           }
+       }
+   }
+   int maxi = INT_MIN;
+   for (int i = 0; i <= sum; i++)
+   {
+       if (dp[n][i])
+       
+       {
+           maxi= max(maxi, i);
+       }
+       
+   }
+   return orgSum-2*maxi;
+} 
+
+2.https://practice.geeksforgeeks.org/problems/word-search/1/
+
+
+CODE :
+
+bool dfs(vector<vector<char>>& board,string word,int i,int j,int pos)
+    {
+        int m=board.size();
+        int n=board[0].size();
+        if(i<0 || j<0 || i>=m || j>=n)
+        return false;
+        if(pos==word.length())
+        return true;
+        if(word[pos]==board[i][j])
+        {
+            char temp=board[i][j];
+            board[i][j]='#';
+            bool a=dfs(board,word,i+1,j,pos+1); 
+            bool b=dfs(board,word,i-1,j,pos+1);
+            bool c=dfs(board,word,i,j+1,pos+1);
+            bool d=dfs(board,word,i,j-1,pos+1);
+            board[i][j]=temp;
+            return a||b||c||d;
+        }
+        else
+        return false;
+        
+    }
+    bool isWordExist(vector<vector<char>>& board, string word) {
+        // Code here
+        
+       int m=board.size();
+        int n=board[0].size();
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(board[i][j]==word[0])
+                {
+                    if(dfs(board,word,i,j,0))
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+3.https://practice.geeksforgeeks.org/problems/find-the-missing-no-in-string/1/
+
+CODE :
+
+// { Driver Code Starts
+    #include<bits/stdc++.h>
+    using namespace std;
+    const int MAX_DIGITS = 5;
+    
+    int missingNumber(const string& str);
+    
+    int main()
+    {
+        int t;
+        cin>>t;
+        while(t--)
+        {
+            string str;
+            cin>>str;
+            cout << missingNumber(str)<<endl;
+        }
+        return 0;
+    }
+    // } Driver Code Ends
+    
+    
+    /* You are required to complete this function
+    which return the required missing number
+    if present else return -1*/
+    //const int MAX_DIGITS=5;
+    long long mns(string str)
+    {
+        long long x=0;
+        for(int i=0;i<str.size();i++)
+          x=x*10+str[i]-'0';
+        return x;
+    }
+    int missingNumber(const string& str)
+    {
+        // Code here
+        int n=str.size();
+        for(int len=1;len<=6;len++)
+        {
+            string tmp="";
+            int l=len,i=0;
+            while(i<str.size() and l--)
+            tmp+=str[i++];
+            
+            long long prev=mns(tmp),found=0,j=i,miss,in_valid=0;
+            tmp="";
+            while(j<str.size())
+            {
+                tmp+=str[j++];
+                if(prev+1==mns(tmp))
+                {
+                    prev=mns(tmp);
+                    tmp="";
+                }
+                else if(prev+2==mns(tmp))
+                {
+                    found=1;
+                    miss=prev+1;
+                    prev=mns(tmp);
+                    tmp="";
+                }
+                else if(prev<mns(tmp))
+                in_valid=1;
+            }
+            if(found==1 and in_valid==0)
+            return miss;
+            return -1;
+        }
+    }
+
+4.https://practice.geeksforgeeks.org/problems/largest-number-in-k-swaps-1587115620/1
+
+CODE :
+
+void findMaxUtil(string str, string &max, int k, int pos)
+{
+    if(k == 0)
+        return;
+        
+    char maxm = str[pos];
+    for(int i = pos+1; i < str.length() ;i++)
+    {
+        if(maxm < str[i])
+            maxm = str[i];
+    }
+    
+    if(maxm != str[pos])
+        k--;
+        
+    for(int i=str.length()-1; i>=pos ;i--)
+    {
+        if(str[i] == maxm)
+        {
+            swap(str[i], str[pos]);
+            if(str.compare(max) > 0)
+                max = str;
+                
+            findMaxUtil(str, max, k, pos+1);
+            
+            swap(str[i], str[pos]);
+        }
+    }
+}
+
+string findMaximumNum(string str, int k)
+{
+   // code here.
+   string max = str;
+   findMaxUtil(str, max, k, 0);
+   return max;
+}
+
+5.https://leetcode.com/problems/split-array-largest-sum/
+
+CODE :
+
+int splitArray(vector<int>& nums, int m) {
+        
+    int n = nums.size();
+    int start = *max_element(nums.begin(),nums.end());
+    int end = 0;
+    for(int i=0;i<n;i++)
+        end+=nums[i];
+    while(start<end)
+    {
+        int pieces = 1;
+        int mid = start + (end-start)/2;
+        int sum = 0;
+        for(int i=0;i<n;i++)
+        {
+            sum+=nums[i];
+            if(sum>mid)
+            {
+                pieces++;
+                sum = nums[i];
+            }
+        }
+        if(pieces<=m)
+            end = mid;
+        else
+            start = mid+1;
+    }
+        return start;
+    
+
+}
+
+6.https://leetcode.com/problems/find-in-mountain-array
+
+CODE :
+
+int findInMountainArray(int target, MountainArray &mountainArr) {
+        
+    int s=0;
+int e=mountainArr.length()-1;
+while(s<e){
+    int mid=s+(e-s)/2;
+    if(mountainArr.get(mid)>mountainArr.get(mid+1)){
+        e=mid;
+    }
+    else if(mountainArr.get(mid)<=mountainArr.get(mid+1)){
+        s=mid+1;
+    }
+}
+int peak = s;
+int s1=0;
+int e1=peak;
+int s2=peak+1;
+int e2=mountainArr.length()-1;
+int ans1=-1,ans2=-1;
+
+while(s1<=e1){
+    int mid=s1+(e1-s1)/2;
+    if(target>mountainArr.get(mid)){
+        s1=mid+1;
+    }
+    else if(target<mountainArr.get(mid)){
+        e1=mid-1;
+    }
+    else{
+        ans1=mid;
+        break;
+    }
+}
+
+while(s2<=e2){
+    int mid=s2+(e2-s2)/2;
+    if(target>mountainArr.get(mid)){
+        e2=mid-1;
+    }
+    else if(target<mountainArr.get(mid)){
+        s2=mid+1;
+    }
+    else{
+        ans2=mid;
+        break;
+    }
+}
+
+if((ans1==-1 && ans2>=0) || (ans2==-1 && ans1>=0))
+    return max(ans1,ans2);
+return min(ans1,ans2);
+}
+    
+
+7.https://leetcode.com/problems/capacity-to-ship-packages-within-d-days
+
+CODE :
+
+bool isValid(vector<int>& weights, int days,int mid){
+    int wt=0;
+    int d=1;
+    for(int i=0;i<weights.size();i++){
+        wt+=weights[i];
+        if(wt>mid){
+            d++;
+            wt=weights[i];
+        }
+        if(d>days){
+            return false;
+        }
+    }
+    return true;
+}
+
+int shipWithinDays(vector<int>& weights, int days) {
+    int ans=0;
+    int low=INT_MIN,high=0;
+    for(auto it : weights){
+        low=max(low,it);
+        high+=it;
+    }
+    while(low<=high){
+        int mid=low+(high-low)/2;
+        if(isValid(weights,days,mid)){
+            ans=mid;
+            high=mid-1;
+        }else{
+            low=mid+1;
+        }
+    }
+    return ans;
+}
+
+8.https://leetcode.com/problems/number-of-boomerangs/
+
+CODE :
+
+int numberOfBoomerangs(vector<vector<int>>& points) {
+        
+    unordered_map<int, int> mp;
+    int ans = 0;
+    for(int i=0; i<points.size(); i++){
+        for(int j=0; j<points.size(); j++){
+            if(i==j) continue;
+            else {
+                int dist = (points[i][0] - points[j][0])*(points[i][0] - points[j][0])
+                    + (points[i][1] - points[j][1])*(points[i][1] - points[j][1]);
+                mp[dist]++;
+            }
+        }
+        for(auto x: mp){
+            ans += x.second*(x.second-1);
+        }
+        mp.clear();
+    }
+    return ans;
+}
+
+9. https://leetcode.com/problems/pacific-atlantic-water-flow/
+
+CODE :
+
+vector<vector<int>> pacificAtlantic(vector<vector<int>> &heights) {
+    m = heights.size();
+    n = heights[0].size();
+    vector<vector<int>> bitmask(m, vector<int>(n, 0));
+    vector<vector<int>> res;
+    
+    // Top row for Pacific Ocean
+    for (int j = 0; j < n; ++j) {
+        dfsHelper(0, j, heights, bitmask, PAC, INT_MIN);
+    }
+    // Left column for Pacific ocean
+    for (int i = 1; i < m; ++i) {
+        dfsHelper(i, 0, heights, bitmask, PAC, INT_MIN);
+    }
+    
+    // Right column for Atlantic ocean
+    for (int i = 0; i < m; ++i) {
+        dfsHelper(i, n - 1, heights, bitmask, ATL, INT_MIN);
+    }
+    // Bottom row for Atlantic ocean
+    for (int j = 0; j < n - 1; ++j) {
+        dfsHelper(m - 1, j, heights, bitmask, ATL, INT_MIN);
+    }
+    
+    // Find solutions with both flows
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (bitmask[i][j] == BOTH) {
+                res.push_back({i, j});
+            }
+        }
+    }
+    
+    return res;
+}
+
+private:
+int m;
+int n;
+static const int PAC = 1;
+static const int ATL = 2;
+static const int BOTH = 3;
+static constexpr int DIR[4][2] = { {0, 1}, {-1, 0}, {0, -1}, {1, 0} };
+
+void dfsHelper(int i, int j, vector<vector<int>> &heights,
+               vector<vector<int>> &bitmask,
+               int ocean, int prev)
+{
+    // Out of bounds
+    if (i < 0 || m <= i || j < 0 || n <= j) { return; }
+    // Invalid flow
+    if (heights[i][j] < prev) { return; }
+    // Already visited
+    if ((bitmask[i][j] & ocean) == ocean) { return; }
+    
+    // Set bitmask for this ocean (marks visited as well)
+    bitmask[i][j] |= ocean;
+    
+    for (int d = 0; d < 4; ++d) {
+        int ii = i + DIR[d][0];
+        int jj = j + DIR[d][1];
+        dfsHelper(ii, jj,
+            heights, bitmask, ocean,
+            heights[i][j]
+        );
+    }
+}
+
+10.https://leetcode.com/problems/number-of-provinces/
+
+CODE :
+
+class Solution {
+    public:
+        int n=0;
+        vector<int> parent;
+        vector<int> rank;
+        int findCircleNum(vector<vector<int>>& isConnected) {
+            n = isConnected.size();
+            return unionFind(isConnected);
+        }
+        
+    private:
+        int unionFind(vector<vector<int>>& isConnected){
+            parent.resize(n, 0);
+            rank.resize(n, 0);
+            for(int i=0; i<n; i++) parent[i] = i; 
+            int connectedComponents = n;
+            for(int i=0; i<n; i++){
+                for(int j=0; j<n; j++){
+                    if(i==j) continue;
+                    if(isConnected[i][j] == 1){
+                        int parentI = findParent(i);
+                        int parentJ = findParent(j);
+                        
+                        if(parentI != parentJ){
+                            connectedComponents -= 1;
+                            unionParents(i, j);
+                        }
+                    }
+                }
+            }
+            return connectedComponents;
+        }
+        
+        int findParent(int u){
+            if(u == parent[u]) return u;
+            return parent[u] = findParent(parent[u]);
+        }
+        
+        void unionParents(int u, int v){
+            u = findParent(u);
+            v = findParent(v);
+            if(rank[u] < rank[v]){
+                parent[u] = v;
+            }
+            else if(rank[v] < rank[u]){
+                parent[v] = u;
+            }
+            else if(rank[u] == rank[v]){
+                parent[v] = u;
+                rank[u] += 1;
+            }
+        }
+    };
+
+11.https://leetcode.com/problems/construct-quad-tree/
+
+CODE :
+
+bool check(int i,int j,int l,vector<vector<int>>& g){
+    int n=g[i][j];
+    for(int a=i;a<i+l;a++){
+        for(int b=j;b<j+l;b++){
+            if(g[a][b]!=n)return false;
+        }
+    }
+    return true;
+}
+Node* construct(int i,int j,int l,vector<vector<int>>& grid){
+    //cout<<i<<" "<<j<<" "<<l<<endl;
+    if(l==1 || check(i,j,l,grid))return new Node(grid[i][j],1);
+    l/=2;
+    return new Node(1,0,construct(i,j,l,grid),construct(i,j+l,l,grid),construct(i+l,j,l,grid),construct(i+l,j+l,l,grid));
+    
+}
+Node* construct(vector<vector<int>>& grid) {
+    int l=grid.size();
+    return construct(0,0,l,grid);
+}
+
+12.https://leetcode.com/problems/course-schedule-ii/
+
+CODE :
+
+vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        
+    queue<int>q;
+    vector<int>indegree(numCourses,0);
+    vector<vector<int>>adj(numCourses);
+    for(auto c: prerequisites)
+    {
+        adj[c[1]].push_back(c[0]);
+        indegree[c[0]]++;
+    }
+    for(int i=0;i<numCourses;i++)
+    {
+        if(indegree[i]==0)
+        {
+            q.push(i);
+        }
+    }
+    int cnt=numCourses;
+    vector<int>res;
+    while(!q.empty())
+    {
+        int node=q.front();
+        q.pop();
+        cnt--;
+        res.push_back(node);
+        
+        for(auto it:adj[node])
+        {
+            indegree[it]--;
+            if(indegree[it]==0)
+            {
+                q.push(it);
+            }
+        }
+    }
+    if(cnt==0)
+    {
+        return res;
+    }
+    return {};
+}
+
+13.https://leetcode.com/problems/minimum-swaps-to-arrange-a-binary-grid
+
+
+CODE :
+
+int minSwaps(vector<vector<int>>& grid) {
+    int n = grid.size(), res;
+    if(n<=1) return 0;   // Base Case
+    
+    int m = grid[0].size();
+    bool flag=true;
+    
+    for(int i=0; i<n; i++)
+    {
+        for(int j=m-1; j>m-n; j--)
+            if(grid[i][j] == 1)
+            {
+                flag=false;
+                break;
+            }
+        if(flag==true)
+        {
+            grid.erase(grid.begin()+i);
+            res = minSwaps(grid);
+            return (res+i>=i) ? i+res : -1;
+        }
+        flag=true;
+    }
+    return -1;
+}
+
+14.https://leetcode.com/problems/as-far-from-land-as-possible/
+
+CODE :
+
+int maxDistance(vector<vector<int>>& grid) {
+    int res = -1,n = grid.size(),m = grid[0].size();
+    vector<vector<int>>dp(n+2,vector<int>(m+2,1e9));
+    bool p = 0;
+    //find nearest distance to land for each water cell in same row 
+    for(int i = 1;i<=n;i++){
+        for(int j = 1;j<=m;j++){
+            if(grid[i-1][j-1] == 1){
+                dp[i][j] = 0;
+                p = 1;//if have land
+            }
+            else{
+                dp[i][j] = dp[i][j-1]+1;
+            }
+        }
+        for(int j = m;j>=0;j--){
+            dp[i][j] = min(dp[i][j],dp[i][j+1]+1);
+        }
+    }
+    if(!p) return -1;//if no have land return -1
+    //find nearest distance to land for each water cell in same column
+    for(int j = 1;j<=m;j++){
+        for(int i = 1;i<=n;i++){
+            dp[i][j] = min(dp[i][j],dp[i-1][j]+1);
+        }
+        for(int i = n;i>=0;i--){
+            dp[i][j] = min(dp[i][j],dp[i+1][j]+1);
+        }
+    }
+    for(int i = 1;i<=n;i++){
+        for(int j = 1;j<=m;j++){
+            if(grid[i-1][j-1] == 0){
+                res = max(res,dp[i][j]);
+            }
+        }
+    }
+    return res;
+}
+
+15.https://leetcode.com/problems/koko-eating-bananas/
+
+CODE :
+
+int minEatingSpeed(vector<int>& piles, int h) {
+        
+    int low = 1;
+    int high = *max_element(piles.begin(), piles.end());
+    while(low<=high) {
+        int mid = (low+high)/2;
+        int total = 0;
+        for(int i=0; i<piles.size(); i++) {
+            total += (piles[i] + mid - 1)/mid;
+        }
+        total <= h ? high = mid-1 : low = mid+1;
+    }
+    return low;
+    
+}
