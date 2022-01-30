@@ -1,0 +1,423 @@
+//WALMART
+
+1.Path with Maximum Probability
+
+CODE:
+
+double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
+        
+        vector<vector<pair<int,double>>>adj(n);
+        for(int i=0;i<edges.size();i++){
+        adj[edges[i][0]].push_back({edges[i][1],succProb[i]});
+        adj[edges[i][1]].push_back({edges[i][0],succProb[i]});
+        }
+        //create a vec to store max prob
+        vector<double>res(n,0.0);
+        queue<int>q;
+        q.push(start);
+        int curr=0;
+        res[start]=1;
+        while(!q.empty())
+        {
+            curr=q.front();
+            q.pop();
+            for(auto x:adj[curr])
+            {
+                if(res[x.first]<res[curr]*x.second)
+                {
+                    res[x.first]=res[curr]*x.second;
+                    q.push(x.first);
+                }
+            }
+        }
+        return res[end];
+    }
+
+2.https://leetcode.com/problems/stone-game
+
+CODE:
+
+ bool stoneGame(vector<int>& piles) {
+        int n = piles.size();
+        vector<vector<int>>dp(n, vector<int>(n));
+        
+        for(int gap = 0; gap < n; gap++)
+            for(int i = 0, j = gap; j < n; i++, j++){
+                if(gap == 0) dp[i][j] = piles[i];
+                else if(gap == 1) dp[i][j] = max(piles[i], piles[j]);
+                else{
+                    int case1 = piles[i] + min(dp[i+2][j], dp[i+1][j-1]);
+                    int case2 = piles[j] + min(dp[i+1][j-1], dp[i][j-2]);
+                    dp[i][j] = max(case1, case2); // maximum of these 2 cases
+                }
+            }
+        return dp[0][n-1];
+    }
+
+3.https://leetcode.com/problems/remove-colored-pieces-if-both-neighbors-are-the-same-color (Similar to Card Game 
+Question)
+
+CODE:
+
+ bool winnerOfGame(string colors) {
+        
+        int alice = 0,bob = 0;
+        int i = 0;
+        while(i < colors.size())
+        {
+            int countA = 0,countB = 0;
+            if(colors[i] == 'A')
+                while(colors[i] == 'A' and i < colors.size())
+                {
+                    countA++;i++;
+                }
+            else 
+                while(colors[i] == 'B' and i < colors.size())
+                {
+                    countB++;i++;
+                }
+            if(countA > 2)alice += countA-2;
+            else if(countB > 2)bob += countB-2;
+        }
+        return alice > bob;
+    
+        
+    }
+
+4.https://practice.geeksforgeeks.org/problems/number-of-unique-paths5339/1/
+
+CODE:
+
+class Solution
+{
+    public:
+    //Function to find total number of unique paths.
+    
+    
+    int NumberOfPath(int a, int b)
+    {
+        //code here
+         int dp[a][b];
+       for(int i=0; i<a; i++){
+           for(int j=0; j<b; j++){
+               if(i==0||j==0) dp[i][j]=1;
+               else dp[i][j]=dp[i-1][j]+dp[i][j-1];
+           }
+       }
+       return dp[a-1][b-1];
+    }
+};
+
+
+5.https://practice.geeksforgeeks.org/problems/transform-to-sum-tree/1/
+
+CODE:
+
+class Solution
+{
+    public:
+    //Function to find total number of unique paths.
+    
+    
+    int NumberOfPath(int a, int b)
+    {
+        //code here
+         int dp[a][b];
+       for(int i=0; i<a; i++){
+           for(int j=0; j<b; j++){
+               if(i==0||j==0) dp[i][j]=1;
+               else dp[i][j]=dp[i-1][j]+dp[i][j-1];
+           }
+       }
+       return dp[a-1][b-1];
+    }
+};
+
+
+6.https://practice.geeksforgeeks.org/problems/power-of-numbers-1587115620/1/(Similar to Jennifer and Numbers Question)
+
+CODE:
+
+class Solution
+{
+    public:
+    //Function to find total number of unique paths.
+    
+    
+    int NumberOfPath(int a, int b)
+    {
+        //code here
+         int dp[a][b];
+       for(int i=0; i<a; i++){
+           for(int j=0; j<b; j++){
+               if(i==0||j==0) dp[i][j]=1;
+               else dp[i][j]=dp[i-1][j]+dp[i][j-1];
+           }
+       }
+       return dp[a-1][b-1];
+    }
+};
+
+
+7.https://practice.geeksforgeeks.org/problems/sorted-subsequence-of-size-3/1/
+
+CODE:
+
+ vector<int> find3Numbers(vector<int> arr, int N) {
+        // Your code here
+        stack<int>s;
+        for(int i=N-1;i>=0;i--)
+        {
+            while(!s.empty() and s.top()<=arr[i])
+            s.pop();
+            s.push(arr[i]);
+            if(s.size()==3)
+            break;
+        }
+        vector<int>res;
+        while(!s.empty())
+        {
+            res.push_back(s.top());
+            s.pop();
+        }
+        if(res.size()!=3)
+        return {};
+        return res;
+    }
+
+8.https://practice.geeksforgeeks.org/problems/maximum-height-tree4803/1/
+
+CODE:
+
+class Solution{
+public:
+    int height(int N){
+        // code here
+        return (int)(-1+sqrt(1+8*N))/2;
+    }
+};
+
+9.https://leetcode.com/problems/guess-number-higher-or-lower-ii
+
+CODE:
+
+int getMoneyAmount(int n) {
+        
+        
+        vector<vector<int>> dp(n+2, vector<int>(n+2));
+        for(int len = 2;len <= n; ++len){
+            int l = 1, r = len;
+            while(r <= n) {
+                int ans = INT_MAX;
+                for(int i=l; i<=r; i++){
+                    ans = min(ans, i + max(dp[l][i-1], dp[i+1][r]));
+                }
+                dp[l][r] = ans;
+                l++, r++;
+            }
+        }
+        return dp[1][n];
+    }
+
+10.https://leetcode.com/problems/generate-random-point-in-a-circle
+
+CODE:
+
+ class Solution {
+public:
+
+double x, y, r;
+double PI = 3.14159265358979323846264;
+
+Solution(double radius, double x_center, double y_center) {
+    
+    r = radius;
+    x = x_center;
+    y = y_center;
+    
+}
+
+double gen( )     
+{
+    double a =(double) rand( )/ RAND_MAX;
+    
+    return a;
+}
+
+vector<double> randPoint() {
+    
+    double length = sqrt(gen( )) * r;
+    
+    double theta = gen() * 2* PI;
+    
+    double xaxis = x + length*cos(theta);
+    
+    double yaxis = y + length*sin(theta);
+    
+    
+    return vector<double>{xaxis,yaxis};
+}
+};
+
+
+11.Maximum Performance of a Team (Dashboard Question Similar)
+
+CODE:
+
+int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+        
+     vector<pair<int,int>>v;
+    
+    for(int i=0;i<n;i++)
+    {
+        v.push_back({efficiency[i],speed[i]});
+    }
+    sort(v.begin(),v.end());
+    
+    //min heap;
+    
+    priority_queue<long long ,vector<long long>,greater<long long>>pq;
+    long long sum=0;
+    long long ans=0;
+    long long mod=1e9+7;
+    
+    
+    for(int i=n-1;i>=0;i--)
+    {
+        pq.push({v[i].second});
+        sum+=v[i].second;
+        
+        while(pq.size()>k)
+        {
+            sum-=pq.top();
+            pq.pop();
+            
+          
+        }
+          ans=max(ans,sum*v[i].first);
+    }
+    return ans%mod;
+        
+    }
+
+12.https://leetcode.com/problems/find-array-given-subset-sums
+
+CODE:
+
+ static  bool cmp(string a,string b)
+  {
+      if(a.length()==b.length())
+          return a>b;
+      return a.length()>b.length();
+  }
+    string kthLargestNumber(vector<string>& nums, int k) {
+        
+        sort(nums.begin(),nums.end(),cmp);
+        return nums[k-1];
+        
+    }
+
+13.Find the Kth Largest Integer in the Array (Cows and Farm Question)
+
+CODE:
+
+class Solution
+{
+    public:
+    void findMaxUtil(string str, string &max, int k, int pos)
+    {
+        if(k == 0)
+            return;
+            
+        char maxm = str[pos];
+        for(int i = pos+1; i < str.length() ;i++)
+        {
+            if(maxm < str[i])
+                maxm = str[i];
+        }
+        
+        if(maxm != str[pos])
+            k--;
+            
+        for(int i=str.length()-1; i>=pos ;i--)
+        {
+            if(str[i] == maxm)
+            {
+                swap(str[i], str[pos]);
+                if(str.compare(max) > 0)
+                    max = str;
+                    
+                findMaxUtil(str, max, k, pos+1);
+                
+                swap(str[i], str[pos]);
+            }
+        }
+    }
+    
+    string findMaximumNum(string str, int k)
+    {
+       // code here.
+       string max = str;
+       findMaxUtil(str, max, k, 0);
+       return max;
+    }
+};
+
+14.https://practice.geeksforgeeks.org/problems/largest-number-in-k-swaps-1587115620/1/
+
+CODE:
+
+class Solution
+{
+    public:
+    void findMaxUtil(string str, string &max, int k, int pos)
+    {
+        if(k == 0)
+            return;
+            
+        char maxm = str[pos];
+        for(int i = pos+1; i < str.length() ;i++)
+        {
+            if(maxm < str[i])
+                maxm = str[i];
+        }
+        
+        if(maxm != str[pos])
+            k--;
+            
+        for(int i=str.length()-1; i>=pos ;i--)
+        {
+            if(str[i] == maxm)
+            {
+                swap(str[i], str[pos]);
+                if(str.compare(max) > 0)
+                    max = str;
+                    
+                findMaxUtil(str, max, k, pos+1);
+                
+                swap(str[i], str[pos]);
+            }
+        }
+    }
+    
+    string findMaximumNum(string str, int k)
+    {
+       // code here.
+       string max = str;
+       findMaxUtil(str, max, k, 0);
+       return max;
+    }
+};
+
+15.https://leetcode.com/problems/divide-two-integers/
+
+CODE:
+
+int divide(int dividend, int divisor) {
+        
+        if(dividend==-2147483648 && divisor==-1)
+            return 2147483647;
+        long quotient;
+        quotient = dividend/divisor;
+        return quotient;
+    }
