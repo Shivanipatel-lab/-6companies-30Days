@@ -1,6 +1,10 @@
 # #6companies30Days
  #RevisWithArsh
 
+
+TASK START FROM 1 JAN 2022 TO 30 JAN 2022
+
+
 1.GOLDMANSACHS
 
 2.AMAZON
